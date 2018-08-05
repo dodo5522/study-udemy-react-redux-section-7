@@ -90,27 +90,23 @@ class PhotoTiler extends React.Component {
     super(props);
   }
 
-  private getUrlToImage = (params: IFlickrPhotosSearchResult, size: 'z' | 'c' | 'b' = 'b'): String => {
-    const { photoId, secret, serverId, farm, title, ispublic, isfriend, isfamily } = params;
-    return `https://farm${farmId}.staticflickr.com/${serverId}/${photoId}_${secret}_${size}.jpg`;
-  }
-
   private updateKeyword = (keyword: String) => {
-    const api = getApiFlickrPhotosSearch(keyword);
-
-    axios.get(api)
+    axios.get(getApiFlickrPhotosSearch(keyword))
     .then(res => {
       const data = parser.xml2js(res.data); 
-
-      //console.log(res.data);
-      console.log(data);
+      const urls = data.elements[0].elements[0].elements.map((e) => {
+        const { id, farm, server, secret } = e.attributes;
+        const size = 'b';
+        return `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_${size}.jpg`;
+      });
 
       this.setState({
         keyword: keyword,
-        imageList: []
+        imageList: urls
       });
     })
     .catch(error => {
+      console.log(JSON.stringify(error));
     });
   }
 
