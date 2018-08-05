@@ -1,6 +1,7 @@
 import * as React from "react";
 import { render } from "react-dom";
 import * as axios from 'axios';
+import * as parser from 'xml-js';
 import Hello from "./Hello";
 
 import './index.css';
@@ -96,12 +97,13 @@ class PhotoTiler extends React.Component {
 
   private updateKeyword = (keyword: String) => {
     const api = getApiFlickrPhotosSearch(keyword);
-    
-    console.log(api);
-    
+
     axios.get(api)
     .then(res => {
-      console.log(res.data);
+      const data = parser.xml2js(res.data); 
+
+      //console.log(res.data);
+      console.log(data);
 
       this.setState({
         keyword: keyword,
