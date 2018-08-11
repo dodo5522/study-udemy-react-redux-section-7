@@ -4,6 +4,9 @@
   "private": true,
   "main": "src/index.tsx",
   "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/xml-js": "^1.0.0",
+    "@types/xml2js": "^0.4.3",
     "axios": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
